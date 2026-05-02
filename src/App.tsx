@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useRef } from "react";
 import "./styles.css";
+import { BRAND } from "./brand";
 
 const TITLE = "JitoSOL Validator Set & NCN Operator Reliability Planner";
 const SUB = "An internal-style scratchpad for protocol, validator-ops, and NCN-operator-facing teams to think through validator-set concentration, skip-rate distribution, region/peer diversity, and NCN operator readiness across the JitoSOL stake pool and Jito Restaking surface area. Inspired by publicly described Jito components — JitoSOL (~160 validators), StakeNet, Block Engine, Bundles, Jito Restaking, and TipRouter.";
@@ -118,6 +119,7 @@ function App() {
       {options.map(o => (
         <button key={o} className={"pill " + (value === o ? "active" : "")} onClick={() => set(o)} type="button">{o}</button>
       ))}
+    <footer className="attribution">{BRAND.attribution}</footer>
     </div>
   );
 
@@ -125,6 +127,17 @@ function App() {
 
   return (
     <div className="wrap">
+      <header className="brand-bar">
+        <a
+          href={BRAND.homepage}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="brand-logo"
+          aria-label={BRAND.company}
+          dangerouslySetInnerHTML={{ __html: BRAND.logoSvg }}
+        />
+        <span className="brand-chip">Independent tool</span>
+      </header>
       <div className="eyebrow">Internal scratchpad · Solana validator set + NCN operators · Pattern-based</div>
       <h1>{TITLE}</h1>
       <p className="lede">{SUB}</p>
@@ -273,6 +286,7 @@ function App() {
       </div>
 
       <div className={"toast " + (toast ? "show" : "")}>Brief copied to clipboard</div>
+    <footer className="attribution">{BRAND.attribution}</footer>
     </div>
   );
 }
