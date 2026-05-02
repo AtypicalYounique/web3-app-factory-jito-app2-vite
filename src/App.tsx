@@ -3,7 +3,7 @@ import "./styles.css";
 import { BRAND } from "./brand";
 
 const TITLE = "JitoSOL Validator Set & NCN Operator Reliability Planner";
-const SUB = "An internal-style scratchpad for protocol, validator-ops, and NCN-operator-facing teams to think through validator-set concentration, skip-rate distribution, region/peer diversity, and NCN operator readiness across the JitoSOL stake pool and Jito Restaking surface area. Inspired by publicly described Jito components — JitoSOL (~160 validators), StakeNet, Block Engine, Bundles, Jito Restaking, and TipRouter.";
+const SUB = "An internal-style scratchpad for protocol, validator-ops, and NCN-operator-facing teams to think through validator-set concentration, skip-rate distribution, region/peer diversity, and NCN operator readiness across the JitoSOL stake pool and Jito Restaking surface area. Inspired by publicly described Jito components: JitoSOL (~160 validators), StakeNet, Block Engine, Bundles, Jito Restaking, and TipRouter.";
 
 function App() {
   const [validators, setValidators] = useState(160);    // total operators in pool
@@ -15,7 +15,7 @@ function App() {
   const [monitoring, setMonitoring] = useState("Operator self-reported");
   const [ncns, setNcns] = useState(3);                  // NCNs to track
   const [ncnSlashable, setNcnSlashable] = useState("Some have slashing-equivalent conditions");
-  const [tipRouterAware, setTipRouterAware] = useState("Yes — modeled in operator economics");
+  const [tipRouterAware, setTipRouterAware] = useState("Yes, modeled in operator economics");
   const [showResult, setShowResult] = useState(false);
   const [toast, setToast] = useState(false);
   const ref = useRef(null);
@@ -32,18 +32,18 @@ function App() {
     monitoring === "Centralized real-time telemetry from most" ? 28 :
     monitoring === "Operator self-reported" ? 55 :
     monitoring === "No standardized reporting" ? 80 : 50;
-  const ncnRisk = Math.min(100, Math.round(ncns * 8 + (ncnSlashable === "Yes — most have slashing-equivalent conditions" ? 30 : ncnSlashable === "Some have slashing-equivalent conditions" ? 18 : 6)));
+  const ncnRisk = Math.min(100, Math.round(ncns * 8 + (ncnSlashable === "Yes, most have slashing-equivalent conditions" ? 30 : ncnSlashable === "Some have slashing-equivalent conditions" ? 18 : 6)));
   const overall = Math.round((concentrationRisk*1.0 + skipRisk*1.2 + regionRisk*0.9 + hardwareRisk*0.9 + monitoringRisk*1.0 + ncnRisk*0.8) / 5.8);
 
   const press = useMemo(() => {
     const out = [];
-    if (topDeciles >= 35) out.push("Top-decile stake concentration is a meaningful single-failure-mode signal — even small operator incidents in that decile move the pool average noticeably.");
-    if (skipP90 >= 6) out.push("Skip-rate p90 above ~6% means the long tail of operators is dragging the pool's effective performance — usually a hardware or peering issue concentrated in a few operators.");
+    if (topDeciles >= 35) out.push("Top-decile stake concentration is a meaningful single-failure-mode signal. Even small operator incidents in that decile move the pool average noticeably.");
+    if (skipP90 >= 6) out.push("Skip-rate p90 above ~6% means the long tail of operators is dragging the pool's effective performance, usually a hardware or peering issue concentrated in a few operators.");
     if (skipMedian >= 3) out.push("Median skip rate above ~3% across the set suggests systemic, not just tail, performance pressure.");
-    if (regions <= 3) out.push("Three or fewer regions across 100+ operators is a quiet correlated-failure risk — region-level network or DDoS events can hit multiple operators at once.");
+    if (regions <= 3) out.push("Three or fewer regions across 100+ operators is a quiet correlated-failure risk. Region-level network or DDoS events can hit multiple operators at once.");
     if (hardwareRisk >= 50) out.push("Hardware heterogeneity inside a stake pool produces irreducible performance variance. Standardizing minimum NVMe/CPU specs across operators usually compresses skip-rate distribution.");
     if (monitoringRisk >= 50) out.push("If monitoring is mostly self-reported or non-standard, you don't see incidents until the public leaderboards do. A central telemetry feed shortens MTTR materially.");
-    if (ncns >= 4 && ncnSlashable !== "None today") out.push("Layering ≥4 NCNs onto operator economics multiplies the surface area for slashing-equivalent events and operator coordination overhead — worth a per-NCN risk register.");
+    if (ncns >= 4 && ncnSlashable !== "None today") out.push("Layering ≥4 NCNs onto operator economics multiplies the surface area for slashing-equivalent events and operator coordination overhead. Worth a per-NCN risk register.");
     if (tipRouterAware === "No / unclear") out.push("TipRouter changes operator economics in non-trivial ways (3% fee, 0.15% to vault operators per public docs). Operators not modeling it are likely undercounting their effective revenue and risk.");
     return out.slice(0, 7);
   }, [topDeciles, skipMedian, skipP90, regions, hardwareRisk, monitoringRisk, ncns, ncnSlashable, tipRouterAware]);
@@ -67,7 +67,7 @@ function App() {
     "Do you offer DDoS protection sized for Solana validator endpoints, including private network paths?",
     "What is your snapshot restore time at p50/p95 for a fully synced Solana mainnet validator?",
     "Can you give consistent hardware tiers across multiple regions for a multi-operator deployment?",
-    "What's your story for noisy-neighbor isolation — is this dedicated, or shared?",
+    "What's your story for noisy-neighbor isolation: is this dedicated, or shared?",
   ];
 
   const brief = useMemo(() => {
@@ -184,11 +184,11 @@ function App() {
         </div>
         <div style={{ marginTop: 12 }}>
           <label>NCN slashing-equivalent conditions</label>
-          <Pills value={ncnSlashable} set={setNcnSlashable} options={["None today","Some have slashing-equivalent conditions","Yes — most have slashing-equivalent conditions"]} />
+          <Pills value={ncnSlashable} set={setNcnSlashable} options={["None today","Some have slashing-equivalent conditions","Yes, most have slashing-equivalent conditions"]} />
         </div>
         <div style={{ marginTop: 12 }}>
           <label>TipRouter awareness in operator economics</label>
-          <Pills value={tipRouterAware} set={setTipRouterAware} options={["Yes — modeled in operator economics","Partially","No / unclear"]} />
+          <Pills value={tipRouterAware} set={setTipRouterAware} options={["Yes, modeled in operator economics","Partially","No / unclear"]} />
         </div>
 
         <div style={{ marginTop: 16 }}>
@@ -240,7 +240,7 @@ function App() {
           <div className="card">
             <h2>Likely pressure points</h2>
             <ul className="ticks">
-              {press.length === 0 && <li>No major patterns flagged based on inputs. Healthy starting point — keep watching the long tail.</li>}
+              {press.length === 0 && <li>No major patterns flagged based on inputs. Healthy starting point. Keep watching the long tail.</li>}
               {press.map((p,i) => <li key={i}>{p}</li>)}
             </ul>
           </div>
@@ -271,7 +271,7 @@ function App() {
           <div className="card">
             <h2>Where dedicated infrastructure may be worth comparing</h2>
             <div style={{ color: "#cdd3df", fontSize: 14, lineHeight: 1.6 }}>
-              Solana validator performance — single-thread CPU, NVMe IOPS, network quality, DDoS posture — is one of the few operational areas where hardware differences show up directly in public skip-rate and revenue signals. For operators in a high-visibility stake pool, dedicated bare metal with predictable hardware tiers is generally worth comparing to current cloud setups. Not a sales claim about any specific provider, just a comparison worth running on real numbers.
+              Solana validator performance, single-thread CPU, NVMe IOPS, network quality, DDoS posture, is one of the few operational areas where hardware differences show up directly in public skip-rate and revenue signals. For operators in a high-visibility stake pool, dedicated bare metal with predictable hardware tiers is generally worth comparing to current cloud setups. Not a sales claim about any specific provider, just a comparison worth running on real numbers.
             </div>
           </div>
 

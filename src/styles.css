@@ -1,4 +1,4 @@
-/* Jito brand fidelity — extracted from jito.network (2026-05-02)
+/* Jito brand fidelity , extracted from jito.network (2026-05-02)
  * Light mode (#FFFFFF body / #000 text), purple #7C4DFF primary CTA pill,
  * lime #B2F250 accent. Aeonik (proprietary, Cloudflare-protected) substituted
  * with Manrope (closest open-source geometric humanist on Google Fonts).
@@ -44,7 +44,7 @@ a { color: var(--accent); text-decoration: none; }
 a:hover { color: var(--accent-2); text-decoration: underline; text-underline-offset: 3px; }
 .wrap { max-width: 880px; margin: 0 auto; padding: 24px 20px 80px; position: relative; z-index: 1; }
 
-/* Brand bar — top-left logo + right-side disclaimer chip */
+/* Brand bar , top-left logo + right-side disclaimer chip */
 .brand-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; gap: 16px; }
 .brand-logo { display: inline-flex; align-items: center; height: 28px; opacity: 1; transition: opacity .15s; }
 .brand-logo:hover { opacity: 0.7; }
